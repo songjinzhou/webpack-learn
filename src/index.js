@@ -1,7 +1,10 @@
+import React, { Component } from 'react';
+import { render } from 'react-dom'
 import './index.less'
-const div = document.createElement('div')
-// 写入文本，添加类名
-div.innerHTML = "hello, webpack";
-div.classList.add('hello'); // 这里出错
 
-document.body.appendChild(div)
+function Hello(params) {
+  return <div className="hello">Hello, webpack</div>
+}
+
+render(<Hello />, document.getElementById('root'))
+

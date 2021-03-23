@@ -1,21 +1,28 @@
 const path = require('path');
- const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const loading = {
+  html: '记载中'
+}
 
  module.exports = {
     entry: {
       index: './src/index.js',
     },
-    // devtool: 'inline-source-map',
-    devServer:{
-      contentBase: "./dist",//本地服务器所加载的页面所在的目录
-      port: 2001
-    },
     plugins: [
       new HtmlWebpackPlugin({
         title: 'webpack包教不包会（一）',
-        template: './src/index.html'
+        template: './src/index.html',
+        loading
       }),
     ],
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin({
+          parallel: true, // 开启多核
+        }),
+      ],
+    },
     module: {
       rules: [
         {
@@ -28,6 +35,7 @@ const path = require('path');
           test: /\.less$/,
           use:['style-loader', 'css-loader', 'less-loader'],
           exclude: /node_modules/,
+          include: './src'
         },
         {
           test: /\,png|svg|jpg|jpeg|gif$/,
@@ -45,3 +53,4 @@ const path = require('path');
      clean: true,
    },
  };
+
